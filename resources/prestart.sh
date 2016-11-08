@@ -6,14 +6,14 @@ printBWTable ()
 {
 	echo "---------------> Product Inventory"
 	echo "---------------------------------------------------------"
-	echo "Name      = "`grep product.name $APPDIR/tibco.home/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
-	echo "Version   = "`grep product.version $APPDIR/tibco.home/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
-	echo "Build     = "`grep product.build $APPDIR/tibco.home/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
-	echo "Vendor    = "`grep product.vendor $APPDIR/tibco.home/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
-	echo "BuildDate = "`grep product.build.date $APPDIR/tibco.home/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
+	echo "Name      = "`grep product.name $APPDIR/Desktop/tibco/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
+	echo "Version   = "`grep product.version $APPDIR/Desktop/tibco/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
+	echo "Build     = "`grep product.build $APPDIR/Desktop/tibco/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
+	echo "Vendor    = "`grep product.vendor $APPDIR/Desktop/tibco/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
+	echo "BuildDate = "`grep product.build.date $APPDIR/Desktop/tibco/bw*/*/system/lib/bw.ini|cut -d'=' -f 2`
 	echo "---------------------------------------------------------"
-mkdir -p $APPDIR/tibco.home/addons
-pluginFolder=$APPDIR/tibco.home/addons
+mkdir -p $APPDIR/Desktop/tibco/addons
+pluginFolder=$APPDIR/Desktop/tibco/addons
 if [ "$(ls $pluginFolder | grep lib)"  ]; then
 for name in $(find $pluginFolder/lib -type f); 
 do	
@@ -34,29 +34,29 @@ checkJAVAHOME()
 		if [[ ${JAVA_HOME}  ]]; then
  			echo $JAVA_HOME
  		else
-			JRE_VERSION=`ls $APPDIR/tibco.home/tibcojre64/`
+			JRE_VERSION=`ls $APPDIR/Desktop/tibco/tibcojre64/`
 			jreLink=tibcojre64/$JRE_VERSION
-			chmod +x $APPDIR/tibco.home/$jreLink/bin/java
-			chmod +x $APPDIR/tibco.home/$jreLink/bin/javac
-			export JAVA_HOME=$APPDIR/tibco.home/$jreLink
+			chmod +x $APPDIR/Desktop/tibco/$jreLink/bin/java
+			chmod +x $APPDIR/Desktop/tibco/$jreLink/bin/javac
+			export JAVA_HOME=$APPDIR/Desktop/tibco/$jreLink
  		fi
 }
-export APPDIR=/home/vcap/app
+export APPDIR=/Users/GiridharKanikarapu
 export BW_KEYSTORE_PATH=$HOME/keystore
 export MALLOC_ARENA_MAX=2
 export MALLOC_MMAP_THRESHOLD_=1024
 export MALLOC_TRIM_THRESHOLD_=1024
 export MALLOC_MMAP_MAX_=65536
 export TIB_DTCP_EXTERNAL={$CF_INSTANCE_IP}{$PORT/$CF_INSTANCE_PORT}
-chmod 755 $APPDIR/tibco.home/bw*/*/bin/startBWAppNode.sh
-sed -i.bak "s#_APPDIR_#$APPDIR#g" $APPDIR/tibco.home/bw*/*/config/appnode_config.ini
+chmod 755 $APPDIR/Desktop/tibco/bw*/*/bin/startBWAppNode.sh
+sed -i.bak "s#_APPDIR_#$APPDIR#g" $APPDIR/Desktop/tibco/bw*/*/config/appnode_config.ini
 if [ "$(ls $APPDIR/tibco.home/bw*/*/ext/shared)"  ]; then 
-	sed -i "s#_APPDIR_#$APPDIR#g" $APPDIR/tibco.home/bw*/*/ext/shared/addons.link	
+	sed -i "s#_APPDIR_#$APPDIR#g" $APPDIR/Desktop/tibco/bw*/*/ext/shared/addons.link	
 fi
 
-chmod 755 $APPDIR/tibco.home/bw*/*/bin/bwappnode
-sed -i "s#_APPDIR_#$APPDIR#g" $APPDIR/tibco.home/bw*/*/bin/bwappnode.tra	
-sed -i "s#_APPDIR_#$APPDIR#g" $APPDIR/tibco.home/bw*/*/bin/bwappnode
+chmod 755 $APPDIR/Desktop/tibco/bw*/*/bin/bwappnode
+sed -i "s#_APPDIR_#$APPDIR#g" $APPDIR/Desktop/tibco/bw*/*/bin/bwappnode.tra	
+sed -i "s#_APPDIR_#$APPDIR#g" $APPDIR/Desktop/tibco/bw*/*/bin/bwappnode
 
 if [[ ${BW_LOGLEVEL} ]]; then
 	echo "Before substitution...."
@@ -75,7 +75,7 @@ if grep -q BW.CLOUD.PORT "$APPDIR/tmp/pcf.substvar"; then
    echo "BW.CLOUD.PORT not found."
 fi
 
-export JETTISON_JAR=`echo $APPDIR/tibco.home/bw*/*/system/shared/com.tibco.bw.tpcl.org.codehaus.jettison*/jettison*.jar`
+export JETTISON_JAR=`echo $APPDIR/Desktop/tibco/bw*/*/system/shared/com.tibco.bw.tpcl.org.codehaus.jettison*/jettison*.jar`
 checkJAVAHOME
 $JAVA_HOME/bin/javac -cp $JETTISON_JAR:.:$JAVA_HOME/lib ProfileTokenResolver.java
 $JAVA_HOME/bin/java -cp $JETTISON_JAR:.:$JAVA_HOME/lib ProfileTokenResolver
@@ -91,4 +91,4 @@ if [[ ${BW_LOGLEVEL} ]]; then
 	cat $APPDIR/tmp/pcf.substvar
 fi
 printBWTable
-exec ./tibco.home/bw*/*/bin/startBWAppNode.sh
+exec ./tibco/bw*/*/bin/startBWAppNode.sh
