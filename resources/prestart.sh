@@ -34,7 +34,7 @@ checkJAVAHOME()
 		if [[ ${JAVA_HOME}  ]]; then
  			echo $JAVA_HOME
  		else
-			JRE_VERSION=`ls $APPDIR/tibco.home/tibcojre64/`
+			JRE_VERSION=`ls $APPDIR/tibco.home/tibcojre64`
 			jreLink=tibcojre64/$JRE_VERSION
 			chmod +x $APPDIR/tibco.home/$jreLink/bin/java
 			chmod +x $APPDIR/tibco.home/$jreLink/bin/javac
